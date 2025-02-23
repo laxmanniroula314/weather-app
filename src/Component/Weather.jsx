@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./weather.css";
 
-const API_KEY = "YOUR_OPENWEATHER_API_KEY"; // Replace with your OpenWeather API Key
-const CITY = "Delhi"; // Default city, can be changed dynamically
-
+const API_KEY = "b18248a3c631251c6578a3e08d65163e"; 
+const CITY = "Biratnagar";
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [city, setCity] = useState(CITY);
@@ -42,20 +41,62 @@ const Weather = () => {
     }
   };
 
+  const formatDate = (date) => {
+    const options = { weekday: "long", month: "long", year: "numeric", day: "numeric" };
+    return date.toLocaleDateString(undefined, options);
+  };
+
+  const getWeatherIcon = (weather) => {
+    switch (weather) {
+      case "Clear":
+        return "☀";
+      case "Clouds":
+        return "☁";
+      case "Rain":
+        return "🌧";
+      case "Snow":
+        return "❄";
+      case "Thunderstorm":
+        return "⛈";
+      case "Drizzle":
+        return "🌦";
+      case "Mist":
+        return "🌫";
+      case "Smoke":
+        return "💨";
+      case "Haze":
+        return "🌁";
+      case "Dust":
+        return "🏜";
+      case "Fog":
+        return "🌫";
+      case "Sand":
+        return "🏖";
+      case "Ash":
+        return "🌋";
+      case "Squall":
+        return "🌬";
+      case "Tornado":
+        return "🌪";
+      default:
+        return "❓";
+    }
+  };
+
   return (
     <div className="weather-container">
       <div className="weather-left">
         <h2 className="location">{weatherData?.name}, {weatherData?.sys?.country}</h2>
         <div className="time-date">
           <p>{currentTime.toLocaleTimeString()}</p>
-          <p>{currentTime.toLocaleDateString()}</p>
+          <p>{formatDate(currentTime)}</p>
         </div>
         <h1 className="temperature">{weatherData?.main?.temp}°C</h1>
       </div>
 
       <div className="weather-right">
         <div className="weather-status">
-          <h2>☀ {weatherData?.weather?.[0]?.main}</h2>
+          <h2>{getWeatherIcon(weatherData?.weather?.[0]?.main)} {weatherData?.weather?.[0]?.main}</h2>
           <input 
             type="text" 
             placeholder="Search city..." 
